@@ -9,6 +9,7 @@ RUN make os=linux chat-server
 FROM scratch
 WORKDIR /root/
 COPY --from=builder /go/src/github.com/byyam/chat-room/bin/ ./bin
+COPY --from=builder /go/src/github.com/byyam/chat-room/web/ ./web
 
 EXPOSE 6060
 ENTRYPOINT ["./bin/chat-server"]
