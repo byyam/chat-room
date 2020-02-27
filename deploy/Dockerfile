@@ -1,16 +1,14 @@
 FROM golang:latest AS builder
+RUN go version
 MAINTAINER Yam <yanzhang.scut@gmail.com>
-ARG APP_NAME
-ARG HOME_PAGE=home.html
 
-RUN mkdir /app
-ADD . /app/
-WORKDIR /app
+COPY . /go/src/github.com/byyam/chat-room/
+WORKDIR /go/src/github.com/byyam/chat-room/
 RUN make os=linux chat-server
-COPY /app/bin/$APP_NAME ./$APP_NAME
-COPY /app/web/$HOME_PAGE ./$HOME_PAGE
-COPY /app/deploy/entrypoint.sh ./entrypoint.sh
+
+FROM scratch
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/byyam/chat-room/bin/ ./bin
+
 EXPOSE 6060
-
-CMD ["bash", "-c", "sleep 2 && bash ./entrypoint.sh"]
-
+ENTRYPOINT ["./bin/chat-server"]
