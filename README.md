@@ -1,1 +1,4 @@
 # chat-room
+
+[![Build Status](https://travis-ci.org/byyam/chat-room.svg?branch=master)](https://travis-ci.org/byyam/chat-room)
+
